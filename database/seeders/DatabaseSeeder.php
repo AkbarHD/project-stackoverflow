@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        // usernya ada 10, setiap user memiliki 5 pertanyaan, jadi totalnya 50 pertanyaan
+        // usernya ada 10, setiap user memiliki 5 pertanyaan, jadi totalnya 50 pertanyaan   
         User::factory(10)
             ->has(Question::factory(5))
             ->create();
