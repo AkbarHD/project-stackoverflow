@@ -64,7 +64,7 @@
                   </ul>
 
                   <!-- author  -->
-                  <Author :post-at="question.created_at" :user="question.user"/>
+                  <Author :post-at="question.created_at" :user="question.user" />
 
                 </div>
                 <div class="post-action">
