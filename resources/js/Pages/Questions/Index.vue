@@ -17,7 +17,7 @@
                     </div>
 
                     <!-- pagination -->
-                    <Pagination :meta="questions.meta" />
+                    <Pagination :meta="questions.meta" position="center"/>
 
                 </div>
                 <div class="col-md-3">

@@ -21,7 +21,7 @@ defineProps({
             <div class="question-summary-content actionable">
                 <div class="d-flex align-items-center">
                     <h3 class="mt-0 question-summary-title">
-                        <Link :href="route('questions.show', question.id)">
+                        <Link :href="route('questions.show', question.slug)">
                             {{ question.title }}
                         </Link>
                     </h3>
@@ -36,10 +36,10 @@ defineProps({
                     </ul>
                     <div class="question-summary-author">
                         <a href="#" class="avatar-sm">
-                            <img src="https://i.pravatar.cc/150?img=30" size="16" alt="" srcset="">
+                            <img :src="question.user.avatar_url" size="16" alt="" srcset="">
                             {{ question.user.name }}
-                        </a>
-                        <span class="text-muted">asked <time :datetime="question.created_at.machine">{{ question.created_at.human }}</time></span>
+                        </a> <span class="text-muted">asked <time :datetime="question.created_at.machine">{{ question.created_at.human }}</time></span>
+
                     </div>
                 </div>
                 <div class="post-action">
