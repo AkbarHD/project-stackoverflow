@@ -12,6 +12,16 @@ class Question extends Model
 
     protected $guarded = [];
 
+    //untuk isi slug otomatis
+
+    public static function booted(): void
+    {
+        static::creating(function (Question $question) {
+            $question->slug = str($question->title)->slug();
+        });
+    }
+
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="d-grid">
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new-question-modal">Ask
+                        <button class="btn btn-primary" @click="showModal" data-bs-toggle="modal" data-bs-target="#new-question-modal">Ask
                             Question</button>
                     </div>
 
@@ -57,6 +57,9 @@
         </div>
 
         <!-- modal -->
+         <Modal id="question-modal" title="Ask a question" size="large" scrollable>
+            <QuestionForm @success="hideModal"/>
+         </Modal>
 
     </AppLayout>
 
@@ -73,13 +76,30 @@
 
 <script setup>
 import { Link, Head } from '@inertiajs/vue3';
+import { onMounted, reactive } from 'vue';
+import * as bootstrap from 'bootstrap';
 import AppLayout from '../../Layouts/AppLayout.vue';
 import QuestionSummary from '../../Components/Question/QuestionSummary.vue';
 import Pagination from '../../Components/Pagination.vue';
+import Modal from '../../Components/Modal.vue';
+import QuestionForm from '../../Components/Question/QuestionForm.vue';
 defineProps({
     questions: {
         type: Object,
         required: true
     }
 });
+
+const state = reactive({
+    modalRef: null
+});
+onMounted(() => {
+    state.modalRef = new bootstrap.Modal('#question-modal', {
+        backdrop: 'static',
+        keyboard: false
+    });
+});
+
+const showModal = () => state.modalRef.show();
+const hideModal = () => state.modalRef.hide();
 </script>

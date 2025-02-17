@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreQuestionRequest;
 use App\Http\Resources\QuestionResource;
 use App\Models\Question;
 use Illuminate\Http\Request;
@@ -33,9 +33,14 @@ class QuestionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreQuestionRequest $request)
     {
-        //
+        $request->user()->questions()->create(
+            // $request->only('title', 'body')
+            $request->validated() // ini akan merujuk isi storeQuestionRequest
+        );
+
+        return back()->with('success', 'Your question has been submitted.');
     }
 
     public function show(Question $question)

@@ -1,63 +1,65 @@
 <script setup>
+import { computed, onMounted, ref } from 'vue';
+
+const props = defineProps({
+    title:{
+        type: String,
+        required: true
+    },
+    size:{
+        type: String,
+        default: ''
+    },
+    scrollable:{
+        type: Boolean,
+        default: false
+    }
+})
+
+const classes = computed(() => {
+    return {
+        'modal-dialog':true,
+        'modal-lg': props.size === 'large',
+        'modal-xl': props.size === 'extra-large',
+        'modal-sm': props.size === 'small',
+        'modal-dialog-scrollable': props.scrollable
+    }
+});
+
+// ini tidak terlalu penting karena tidak ada pun tetap jalan
+
+const modalRef = ref(null);
+const emit = defineEmits(['hidden']);
+
+onMounted(() => {
+    modalRef.value.addEventListener('hidden.bs.modal', (event) => {
+        // console.log('hidden');
+        emit('hidden');
+    })
+})
 </script>
 
 <template>
-    <div class="modal fade"  tabindex="-1"
+    <div class="modal fade" ref="modalRef"  tabindex="-1"
         aria-labelledby="new-question-modal-label" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <!-- <div class="modal-dialog modal-lg modal-dialog-scrollable"> -->
+        <div :class="classes">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="new-question-modal-label">{{ title }}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="row mb-3">
-                            <div class="col-7">
-                                <label for="question-title" class="form-label">Question title</label>
-                                <input type="text" class="form-control" name="title" id="question-title">
-                            </div>
-                            <div class="col-5">
-                                <label for="question-tags" class="form-label">Tags</label>
-                                <input type="text" class="form-control" name="tags" id="question-tags">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="question-body" class="form-label">Explain your question</label>
-                            <div class="card">
-                                <div class="card-header">
-                                    <ul class="nav nav-tabs card-header-tabs">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#write"
-                                                type="button" role="tab" href="#">Write</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#" data-bs-toggle="tab" data-bs-target="#preview"
-                                                type="button" role="tab">Preview</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="card-body">
-                                    <div class="tab-content" id="myTabContent">
-                                        <div class="tab-pane fade show active" id="write" role="tabpanel"
-                                            aria-labelledby="write-tab" tabindex="0">
-                                            <textarea rows="7" class="form-control" name="body">hit there</textarea>
-                                        </div>
-                                        <div class="tab-pane fade show" id="preview" role="tabpanel"
-                                            aria-labelledby="preivew-tab" tabindex="0">
-                                            <div class="preview-body">
-                                                hi there
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+
+                    <slot/>
+
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Post</button>
+                <!-- saat modal ini di panggil, dan kita sertakan footer. ini akan di render, kalau tidak, maka tidak -->
+                <div class="modal-footer" v-if="$slots.footer">
+
+                    <slot/>
+
+
                 </div>
             </div>
         </div>
