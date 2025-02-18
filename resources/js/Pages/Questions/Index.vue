@@ -11,7 +11,11 @@
                         <ul class="list-group list-group-flush">
 
                             <!-- question summary -->
-                             <QuestionSummary v-for="question in questions.data" :key="question.id" :question="question"/>
+                             <QuestionSummary
+                             v-for="question in questions.data"
+                             :key="question.id" :question="question"
+                             @edit="editQuestion"
+                             />
 
                         </ul>
                     </div>
@@ -22,7 +26,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="d-grid">
-                        <button class="btn btn-primary" @click="showModal" data-bs-toggle="modal" data-bs-target="#new-question-modal">Ask
+                        <button class="btn btn-primary" @click="askQuestion" data-bs-toggle="modal" data-bs-target="#new-question-modal">Ask
                             Question</button>
                     </div>
 
@@ -57,7 +61,7 @@
         </div>
 
         <!-- modal -->
-         <Modal id="question-modal" title="Ask a question" size="large" scrollable>
+         <Modal id="question-modal" :title="state.modalTitle" size="large" scrollable>
             <QuestionForm @success="hideModal"/>
          </Modal>
 
@@ -91,7 +95,8 @@ defineProps({
 });
 
 const state = reactive({
-    modalRef: null
+    modalRef: null,
+    modalTitle: 'Ask Question'
 });
 onMounted(() => {
     state.modalRef = new bootstrap.Modal('#question-modal', {
@@ -102,4 +107,14 @@ onMounted(() => {
 
 const showModal = () => state.modalRef.show();
 const hideModal = () => state.modalRef.hide();
+
+const editQuestion = (question) => {
+    state.modalTitle = 'Edit Question';
+    showModal();
+}
+
+const askQuestion = () => {
+    state.modalTitle = 'Ask Question';
+    showModal();
+}
 </script>
