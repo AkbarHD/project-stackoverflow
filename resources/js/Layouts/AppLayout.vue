@@ -6,9 +6,11 @@ import Navbar from '../Components/Navbar.vue';
 import Toast from '../Components/toast.vue'; // karena tost di pake di semua halaman, maka di import di layout ini
 
 const state = reactive({
-    modalRef: null,
-    toastMessage: ''
+    modalRef: null, // untuk muncul toast
+    toastMessage: '' // utk custom text
 });
+
+const page = usePage();
 
 onMounted(() => {
     state.modalRef = new bootstrap.Toast('#toast-app', {
@@ -22,7 +24,6 @@ router.on('finish', () => {
     showToast();
 })
 
-const page = usePage();
 
 const showToast = () => {
     state.modalRef.show();
@@ -30,11 +31,11 @@ const showToast = () => {
 </script>
 <template>
     <!-- navbart -->
-    <Navbar/>
+    <Navbar />
     <!-- <button class="btn btn-primary" @click="showToast">show toast</button> -->
     <!-- end navbar -->
     <main class="py-4">
-       <slot/>
+        <slot />
     </main>
-    <Toast id="toast-app" :message="state.toastMessage"/>
+    <Toast id="toast-app" :message="state.toastMessage" />
 </template>

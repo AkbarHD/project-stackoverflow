@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreQuestionRequest;
+use App\Http\Requests\UpdataQuestionRequest;
 use App\Http\Resources\QuestionResource;
 use App\Models\Question;
 use Illuminate\Http\Request;
@@ -35,6 +36,8 @@ class QuestionController extends Controller
      */
     public function store(StoreQuestionRequest $request)
     {
+        // penjelasasan : $request->user = akan mengambil id yang sedang login
+        // $request->user()->questions = akan mengabil field question, tapi dia mengambil dari sisi user yg hasMany
         $request->user()->questions()->create(
             // $request->only('title', 'body')
             $request->validated() // ini akan merujuk isi storeQuestionRequest
@@ -62,9 +65,11 @@ class QuestionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Question $question)
+    public function update(UpdataQuestionRequest $request, Question $question)
     {
-        //
+        $question->update($request->validated());
+
+        return back()->with('success', 'Your question has been updated.');
     }
 
     /**

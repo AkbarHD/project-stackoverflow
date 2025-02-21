@@ -1,18 +1,52 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
-const form = useForm({
-    title: '',
-    body: ''
-});
+
+// kita pengen dinamis bisa post dan juga update
+const props = defineProps({
+    question: {
+        type: Object,
+        required: true
+    },
+    method: String, // methiod utk update, jika ada, jika tidak ada maka post
+    action:{
+        type: String,
+        required: true
+    }
+})
+
+const formData =  {
+    title: props.question.title,
+    body: props.question.body,
+    id: props.question.id
+}
+
+if(props.method) {
+    formData._method = props.method
+}
+
+const form = useForm(formData);
+// const form = useForm({
+//     title: '',
+//     body: ''
+// });
 const emit = defineEmits(['success']);
 const submit = () => {
-    form.post(route('questions.store'), {
+    form.post(props.action, {
         onSuccess: () => {
             emit('success');
             form.reset();
         }
     })
 }
+
+// const submit = () => {
+//     form.post(route('questions.store'), {
+//         onSuccess: () => {
+//             emit('success');
+//             form.reset();
+//         }
+//     })
+// }
 </script>
 
 <template>
@@ -63,7 +97,7 @@ const submit = () => {
 
         <div class="d-flex justify-content-end">
             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Post</button>
+            <button type="submit" class="btn btn-primary">{{ question.id ? 'update' : 'Post' }}</button>
         </div>
     </form>
 </template>

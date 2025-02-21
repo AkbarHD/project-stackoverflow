@@ -11,22 +11,19 @@
                         <ul class="list-group list-group-flush">
 
                             <!-- question summary -->
-                             <QuestionSummary
-                             v-for="question in questions.data"
-                             :key="question.id" :question="question"
-                             @edit="editQuestion"
-                             />
-
+                            <QuestionSummary v-for="question in questions.data" :key="question.id" :question="question"
+                                @edit="editQuestion" />
                         </ul>
                     </div>
 
                     <!-- pagination -->
-                    <Pagination :meta="questions.meta" position="center"/>
+                    <Pagination :meta="questions.meta" position="center" />
 
                 </div>
                 <div class="col-md-3">
                     <div class="d-grid">
-                        <button class="btn btn-primary" @click="askQuestion" data-bs-toggle="modal" data-bs-target="#new-question-modal">Ask
+                        <button class="btn btn-primary" @click="askQuestion" data-bs-toggle="modal"
+                            data-bs-target="#new-question-modal">Ask
                             Question</button>
                     </div>
 
@@ -61,13 +58,16 @@
         </div>
 
         <!-- modal -->
-         <Modal id="question-modal" :title="state.modalTitle" size="large" scrollable>
-            <QuestionForm @success="hideModal"/>
-         </Modal>
+        <Modal id="question-modal" :title="state.modalTitle" size="large" @hidden="editing = false" scrollable>
+            <!-- <EditQuestionForm :question="question" @success="hideModal"  v-if="editing"/>
+            <CreateQuestionForm :question="question" @success="hideModal" v-else /> -->
+            <component :is="editing ? EditQuestionForm : CreateQuestionForm" :question="question"
+                @success="hideModal" />
+        </Modal>
 
     </AppLayout>
 
-    <Head title="All Questions"/>
+    <Head title="All Questions" />
 
     <!-- <div>
         <div v-for="question in questions" :key="question.id">
@@ -80,13 +80,15 @@
 
 <script setup>
 import { Link, Head } from '@inertiajs/vue3';
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import * as bootstrap from 'bootstrap';
 import AppLayout from '../../Layouts/AppLayout.vue';
 import QuestionSummary from '../../Components/Question/QuestionSummary.vue';
 import Pagination from '../../Components/Pagination.vue';
 import Modal from '../../Components/Modal.vue';
-import QuestionForm from '../../Components/Question/QuestionForm.vue';
+// import QuestionForm from '../../Components/Question/QuestionForm.vue';
+import CreateQuestionForm from '../../Components/Question/CreateQuestionForm.vue';
+import EditQuestionForm from '../../Components/Question/EditQuestionForm.vue';
 defineProps({
     questions: {
         type: Object,
@@ -96,8 +98,17 @@ defineProps({
 
 const state = reactive({
     modalRef: null,
-    modalTitle: 'Ask Question'
+    modalTitle: ''
 });
+
+const question = {
+    title: null,
+    body: null,
+    id: null,
+}
+
+const editing = ref(false);
+
 onMounted(() => {
     state.modalRef = new bootstrap.Modal('#question-modal', {
         backdrop: 'static',
@@ -108,12 +119,18 @@ onMounted(() => {
 const showModal = () => state.modalRef.show();
 const hideModal = () => state.modalRef.hide();
 
-const editQuestion = (question) => {
+const editQuestion = (payload) => {
+    editing.value = true;
     state.modalTitle = 'Edit Question';
+
+    question.title = payload.title;
+    question.body = payload.body;
+    question.id = payload.id;
     showModal();
 }
 
 const askQuestion = () => {
+    editing.value = false;
     state.modalTitle = 'Ask Question';
     showModal();
 }
