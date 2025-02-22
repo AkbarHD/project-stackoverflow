@@ -12,7 +12,7 @@
 
                             <!-- question summary -->
                             <QuestionSummary v-for="question in questions.data" :key="question.id" :question="question"
-                                @edit="editQuestion" />
+                                @edit="editQuestion" @remove="deleteQuestion" />
                         </ul>
                     </div>
 
@@ -27,20 +27,9 @@
                             Question</button>
                     </div>
 
-                    <ul class="nav nav-underline flex-column mt-4">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Latest</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Unanswered</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Scored</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Mine</a>
-                        </li>
-                    </ul>
+                    <!-- filter questions -->
+                    <QuestionFilter :filter="filter" />
+
                     <h2 class="fs-5 mt-5">Related Tags</h2>
                     <ul class="tags-list mt-3">
                         <li><a href="#" class="tag mb-2">Javascript</a></li>
@@ -79,11 +68,12 @@
 </template>
 
 <script setup>
-import { Link, Head } from '@inertiajs/vue3';
+import { Link, Head, router } from '@inertiajs/vue3';
 import { onMounted, reactive, ref } from 'vue';
 import * as bootstrap from 'bootstrap';
 import AppLayout from '../../Layouts/AppLayout.vue';
 import QuestionSummary from '../../Components/Question/QuestionSummary.vue';
+import QuestionFilter from '../../Components/Question/QuestionFilter.vue';
 import Pagination from '../../Components/Pagination.vue';
 import Modal from '../../Components/Modal.vue';
 // import QuestionForm from '../../Components/Question/QuestionForm.vue';
@@ -93,7 +83,8 @@ defineProps({
     questions: {
         type: Object,
         required: true
-    }
+    },
+    filter:String
 });
 
 const state = reactive({
@@ -127,6 +118,16 @@ const editQuestion = (payload) => {
     question.body = payload.body;
     question.id = payload.id;
     showModal();
+}
+
+const deleteQuestion = (payload) => {
+    // jika belum login akan di arahkan ke login
+
+    if(confirm('Are you sure you want to delete this question?')){
+        router.delete(route('questions.destroy', payload.id), {
+            preserveScroll: true
+        })
+    }
 }
 
 const askQuestion = () => {

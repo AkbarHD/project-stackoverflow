@@ -46,7 +46,10 @@ const emit = defineEmits(['edit', 'remove']);
                     </div>
                 </div>
 
-                <ActionButtons @edit="emit('edit', question)" />
+                <ActionButtons
+                v-if="$page.props.user && $page.props.user.id === question.user.id"
+                @edit="emit('edit', question)" @remove="emit('remove', question)"
+                 />
             </div>
         </div>
     </li>
