@@ -15,7 +15,7 @@ const props = defineProps({
         <li class="nav-item">
             <Link class="nav-link" :class="{active:filter === 'scored'}" href="/?filter=scored">Scored</Link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" v-if="$page.props.user">
             <Link class="nav-link" :class="{active:filter === 'mine'}" href="/?filter=mine">Mine</Link>
         </li>
     </ul>

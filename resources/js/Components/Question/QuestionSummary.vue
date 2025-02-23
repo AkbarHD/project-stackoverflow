@@ -46,6 +46,7 @@ const emit = defineEmits(['edit', 'remove']);
                     </div>
                 </div>
 
+                <!-- akan dia muncul ketika user sudah login dan user tersebut adalah user yang membuat pertanyaan  -->
                 <ActionButtons
                 v-if="$page.props.user && $page.props.user.id === question.user.id"
                 @edit="emit('edit', question)" @remove="emit('remove', question)"

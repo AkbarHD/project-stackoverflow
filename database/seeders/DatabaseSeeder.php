@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Answer;
 use App\Models\Question;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -21,9 +22,15 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        // usernya ada 10, setiap user memiliki 5 pertanyaan, jadi totalnya 50 pertanyaan   
+        // usernya ada 10, setiap user memiliki 5 pertanyaan, jadi totalnya 50 pertanyaan
         User::factory(10)
-            ->has(Question::factory(5))
+            ->has(
+                Question::factory(5)->has(
+                    Answer::factory(10)->state(function($attributes, Question $question){
+                        return ['user_id' => $question->user_id];
+                    })
+                )
+            )
             ->create();
     }
 }
