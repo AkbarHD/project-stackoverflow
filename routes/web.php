@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers\QuestionController;
-use App\Http\Resources\QuestionResource;
-use App\Models\Question;
 use Illuminate\Support\Facades\Route;
 
 

@@ -90,10 +90,11 @@
               </div>
           </div>
 
-          <h2 class="mt-4 answer-header">{{ question.answers_count }} Answers</h2>
+          <!-- ini di cut -->
+          <!-- <h2 class="mt-4 answer-header">{{ question.answers_count }} Answers</h2> -->
 
           <!-- answers -->
-          <Answers  v-for="answer in answers.data" :key="answer.id" :answers="answer" />
+          <Answers :answers="answers" />
 
           <h2 class="mt-4 answer-header">Your answer</h2>
           <div>
