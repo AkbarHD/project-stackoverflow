@@ -21,6 +21,7 @@ class AnswerResource extends JsonResource
             'body' => $this->body,
             'user' => UserResource::make($this->user),
             'votes_count' => $this->votes_count,
+            'question_id' => $this->question_id, // fungsi question_ id untuk pertanyaan yang dijawab
             'created_at' => DateRTimeResource::make($this->created_at),
         ];
     }

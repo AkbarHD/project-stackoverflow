@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Answer;
 use App\Http\Requests\StoreAnswerRequest;
 use App\Http\Requests\UpdateAnswerRequest;
+use App\Models\Answer;
+use App\Models\Question;
 
 class AnswerController extends Controller
 {
@@ -27,9 +28,15 @@ class AnswerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAnswerRequest $request)
+    public function store(StoreAnswerRequest $request, Question $question)
     {
-        //
+        Answer::create([
+            'question_id' => $question->id,
+            'body' => $request->body,
+            'user_id' => $request->user()->id
+        ]);
+
+        return back()->with('success', 'Your answer has been submitted.');
     }
 
     /**
@@ -59,8 +66,10 @@ class AnswerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Answer $answer)
+    public function destroy(Question $question, Answer $answer)
     {
-        //
+        $answer->delete();
+
+        return back()->with('success', value: 'Your answer has been deleted.');
     }
 }

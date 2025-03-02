@@ -15,6 +15,5 @@ defineProps({
     </div>
     <div class="answer-content mt-4">
         <Answer v-for="answer in answers.data" :key="answer.id" :answer="answer" />
-
     </div>
 </template>
