@@ -58,9 +58,11 @@ class AnswerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAnswerRequest $request, Answer $answer)
+    public function update(UpdateAnswerRequest $request, Question $question, Answer $answer)
     {
-        //
+        $answer->update($request->validated());
+
+        return back()->with('success', 'Your answer has been updated.');
     }
 
     /**

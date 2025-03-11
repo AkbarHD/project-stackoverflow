@@ -47,7 +47,7 @@
         </div>
 
         <!-- modal -->
-        <Modal id="question-modal" :title="state.modalTitle" size="large" @hidden="editing = false" scrollable>
+        <Modal id="question-modal" :title="modalTitle" size="large" @hidden="editing = false" scrollable>
             <!-- <EditQuestionForm :question="question" @success="hideModal"  v-if="editing"/>
             <CreateQuestionForm :question="question" @success="hideModal" v-else /> -->
             <component :is="editing ? EditQuestionForm : CreateQuestionForm" :question="question"
@@ -68,17 +68,21 @@
 </template>
 
 <script setup>
-import { Link, Head, router } from '@inertiajs/vue3';
-import { onMounted, reactive, ref } from 'vue';
-import * as bootstrap from 'bootstrap';
+import { Head, router } from '@inertiajs/vue3';
+import { reactive, ref } from 'vue';
+// pindahkan ke useModal.js
 import AppLayout from '../../Layouts/AppLayout.vue';
 import QuestionSummary from '../../Components/Question/QuestionSummary.vue';
 import QuestionFilter from '../../Components/Question/QuestionFilter.vue';
 import Pagination from '../../Components/Pagination.vue';
-import Modal from '../../Components/Modal.vue';
+// pindahkan ke useModal.js
 // import QuestionForm from '../../Components/Question/QuestionForm.vue';
 import CreateQuestionForm from '../../Components/Question/CreateQuestionForm.vue';
 import EditQuestionForm from '../../Components/Question/EditQuestionForm.vue';
+import useModal from '../../Composables/useModal';
+
+const {showModal, hideModal, modalTitle, Modal} = useModal('#question-modal');
+
 defineProps({
     questions: {
         type: Object,
@@ -87,10 +91,10 @@ defineProps({
     filter:String
 });
 
-const state = reactive({
-    modalRef: null,
-    modalTitle: ''
-});
+// const state = reactive({
+//     modalRef: null,
+//     modalTitle: ''
+// });
 
 const question = {
     title: null,
@@ -100,19 +104,11 @@ const question = {
 
 const editing = ref(false);
 
-onMounted(() => {
-    state.modalRef = new bootstrap.Modal('#question-modal', {
-        backdrop: 'static',
-        keyboard: false
-    });
-});
-
-const showModal = () => state.modalRef.show();
-const hideModal = () => state.modalRef.hide();
+// onMounted dan showmodal, hidemodal ktia pindahkan ke useModal.js
 
 const editQuestion = (payload) => {
     editing.value = true;
-    state.modalTitle = 'Edit Question';
+    modalTitle.value = 'Edit Question';
 
     question.title = payload.title;
     question.body = payload.body;
@@ -132,7 +128,7 @@ const deleteQuestion = (payload) => {
 
 const askQuestion = () => {
     editing.value = false;
-    state.modalTitle = 'Ask Question';
+    modalTitle.value = 'Ask Question';
     showModal();
 }
 </script>
