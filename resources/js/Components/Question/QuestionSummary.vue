@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/vue3';
 import ActionButtons from '../ActionButtons.vue';
 
 defineProps({
-    question:{
+    question: {
         type: Object,
         required: true
     }
@@ -25,7 +25,7 @@ const emit = defineEmits(['edit', 'remove']);
                 <div class="d-flex align-items-center">
                     <h3 class="mt-0 question-summary-title">
                         <Link :href="route('questions.show', question.slug)">
-                            {{ question.title }}
+                        {{ question.title }}
                         </Link>
                     </h3>
                     <div class="ml-auto"></div>
@@ -41,16 +41,15 @@ const emit = defineEmits(['edit', 'remove']);
                         <a href="#" class="avatar-sm">
                             <img :src="question.user.avatar_url" size="16" alt="" srcset="">
                             {{ question.user.name }}
-                        </a> <span class="text-muted">asked <time :datetime="question.created_at.machine">{{ question.created_at.human }}</time></span>
+                        </a> <span class="text-muted">asked <time :datetime="question.created_at.machine">{{
+                                question.created_at.human }}</time></span>
 
                     </div>
                 </div>
 
                 <!-- akan dia muncul ketika user sudah login dan user tersebut adalah user yang membuat pertanyaan  -->
-                <ActionButtons
-                v-if="$page.props.user && $page.props.user.id === question.user.id"
-                @edit="emit('edit', question)" @remove="emit('remove', question)"
-                 />
+                <ActionButtons v-if="$page.props.user && $page.props.user.id === question.user.id"
+                    @edit="emit('edit', question)" @remove="emit('remove', question)" />
             </div>
         </div>
     </li>
