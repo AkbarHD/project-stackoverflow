@@ -81,14 +81,14 @@ import CreateQuestionForm from '../../Components/Question/CreateQuestionForm.vue
 import EditQuestionForm from '../../Components/Question/EditQuestionForm.vue';
 import useModal from '../../Composables/useModal';
 
-const {showModal, hideModal, modalTitle, Modal} = useModal('#question-modal');
+const { showModal, hideModal, modalTitle, Modal } = useModal('#question-modal');
 
 defineProps({
     questions: {
         type: Object,
         required: true
     },
-    filter:String
+    filter: String
 });
 
 // const state = reactive({
@@ -106,7 +106,7 @@ const editing = ref(false);
 
 // onMounted dan showmodal, hidemodal ktia pindahkan ke useModal.js
 
-const editQuestion = (payload) => {
+const editQuestion = (payload) => { // payload itu hasil dari emit('edit', question)
     editing.value = true;
     modalTitle.value = 'Edit Question';
 
@@ -116,10 +116,10 @@ const editQuestion = (payload) => {
     showModal();
 }
 
-const deleteQuestion = (payload) => {
+const deleteQuestion = (payload) => { // payload itu hasil dari emit('remove', question)
     // jika belum login akan di arahkan ke login
 
-    if(confirm('Are you sure you want to delete this question?')){
+    if (confirm('Are you sure you want to delete this question?')) {
         router.delete(route('questions.destroy', payload.id), {
             preserveScroll: true
         })
