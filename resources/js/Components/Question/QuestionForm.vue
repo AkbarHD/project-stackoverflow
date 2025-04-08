@@ -31,7 +31,7 @@ const form = useForm(formData);
 // });
 const emit = defineEmits(['success']);
 const submit = () => {
-    form.post(props.action, {
+    form.post(props.action, { // jadi ini bisa edit atau create keren, yg menjadi acuan itu "form"
         onSuccess: () => {
             emit('success');
             form.reset();

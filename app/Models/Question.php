@@ -17,6 +17,7 @@ class Question extends Model
 
     public static function booted(): void
     {
+        // ini utk mengisi slug otomatis
         static::creating(function (Question $question) {
             $question->slug = str($question->title)->slug();
         });

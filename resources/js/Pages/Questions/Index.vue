@@ -14,7 +14,7 @@
                             <QuestionSummary v-for="question in questions.data" :key="question.id" :question="question"
                                 @edit="editQuestion" @remove="deleteQuestion" />
                         </ul>
-                    </div>
+                    </div>     
 
                     <!-- pagination -->
                     <Pagination :meta="questions.meta" position="center" />

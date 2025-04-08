@@ -16,7 +16,7 @@ const emit = defineEmits(['edit', 'remove']);
         <div class="post-item question-summary">
             <div class="question-summary-stats">
                 <div class="stats-item vote"><strong>{{ question.votes_count }}</strong> vote</div>
-                <div class="stats-item status has-answers"><strong>1</strong> {{ question.answers_count }}</div>
+                <div class="stats-item status has-answers"><strong></strong> {{ question.answers_count }}</div>
                 <div class="stats-item view">
                     {{ question.views_count }} views
                 </div>
@@ -39,7 +39,7 @@ const emit = defineEmits(['edit', 'remove']);
                     </ul>
                     <div class="question-summary-author">
                         <a href="#" class="avatar-sm">
-                            <img :src="question.user.avatar_url" size="16" alt="" srcset="">
+                            <img :src="question.user.avatar_url" size="16" alt="" >
                             {{ question.user.name }}
                         </a> <span class="text-muted">asked <time :datetime="question.created_at.machine">{{
                                 question.created_at.human }}</time></span>
