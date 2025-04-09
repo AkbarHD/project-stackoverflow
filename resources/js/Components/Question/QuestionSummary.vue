@@ -39,18 +39,22 @@ const emit = defineEmits(['edit', 'remove']);
                     </ul>
                     <div class="question-summary-author">
                         <a href="#" class="avatar-sm">
-                            <img :src="question.user.avatar_url" size="16" alt="" >
+                            <img :src="question.user.avatar_url" size="16" alt="">
                             {{ question.user.name }}
                         </a> <span class="text-muted">asked <time :datetime="question.created_at.machine">{{
-                                question.created_at.human }}</time></span>
+                            question.created_at.human }}</time></span>
 
                     </div>
                 </div>
 
                 <!-- akan dia muncul ketika user sudah login dan user tersebut adalah user yang membuat pertanyaan  -->
-                <ActionButtons v-if="$page.props.user && $page.props.user.id === question.user.id"
-                    @edit="emit('edit', question)" @remove="emit('remove', question)" />
+                <ActionButtons
+                :allow-updated="question.can_be.updated"
+                :allow-deleted="question.can_be.deleted"
+                @edit="emit('edit', question)" @remove="emit('remove', question)" />
+                <!-- v-if="$page.props.user && $page.props.user.id === question.user.id" -->
             </div>
         </div>
     </li>
 </template>
+

@@ -27,6 +27,10 @@ class QuestionResource extends JsonResource
             'user' => UserResource::make($this->user), // kayanya krn ini akan merujuk ke model user karena dalam model user ada method avatarUrl
             'created_at' => DateRTimeResource::make($this->created_at),
             'updated_at' => DateRTimeResource::make($this->updated_at),
+            'can_be' => [
+                'updated' => $request->user() && $request->user()->can('update', $this->resource), // ini fungsinya utk mengecek apakah user yg sedang login bisa mengupdate question ini
+                'deleted' => $request->user() && $request->user()->can('delete', $this->resource), // ini fungsinya utk mengecek apakah user yg sedang login bisa menghapus question ini
+            ]
         ];
     }
 }

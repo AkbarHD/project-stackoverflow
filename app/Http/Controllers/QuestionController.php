@@ -1,12 +1,13 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreQuestionRequest;
-use App\Http\Requests\UpdataQuestionRequest;
-use App\Http\Resources\AnswerResource;
-use App\Http\Resources\QuestionResource;
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use App\Http\Resources\AnswerResource;
+use App\Http\Resources\QuestionResource;
+use App\Http\Requests\StoreQuestionRequest;
+use App\Http\Requests\UpdataQuestionRequest;
 
 class QuestionController extends Controller
 {
@@ -30,7 +31,9 @@ class QuestionController extends Controller
             ->latest()->paginate(15)
             ->withQueryString()
         );
+
         // return $questions;
+
         return Inertia('Questions/Index', [
             'questions' => $questions,
             'filter' => $filter
@@ -60,6 +63,7 @@ class QuestionController extends Controller
         return back()->with('success', 'Your question has been submitted.');
     }
 
+
     public function show(Question $question)
     {
         // return QuestionResource::make($question);
@@ -82,6 +86,7 @@ class QuestionController extends Controller
      */
     public function update(UpdataQuestionRequest $request, Question $question)
     {
+        Gate::authorize('update', $question); // policy
         $question->update($request->validated());
 
         return back()->with('success', 'Your question has been updated.');
@@ -92,6 +97,7 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question)
     {
+        Gate::authorize('delete', $question); // policy
         $question->delete();
         return back()->with('success', 'Your question has been deleted.');
     }
