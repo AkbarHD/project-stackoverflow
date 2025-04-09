@@ -17,6 +17,7 @@ class QuestionPolicy
 
     public function update(User $user, Question $question) : bool
     {
+        // question bisa di update ketika user yang sedang login adalah pemilik question
         return $user->id === $question->user_id;
     }
 

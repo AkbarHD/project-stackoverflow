@@ -62,7 +62,10 @@ const removeAnswer = () => {
                <Author :post-at="answer.created_at" :user="answer.user"  is-answer/>
             </div>
             <!-- edit dan delete -->
-           <ActionButtons @remove="removeAnswer" @edit="emit('edit', answer)" />
+           <ActionButtons
+            :allow-updated="answer.can_be.updated"
+            :allow-deleted="answer.can_be.deleted"
+           @remove="removeAnswer" @edit="emit('edit', answer)" />
         </div>
     </div>
 </template>
