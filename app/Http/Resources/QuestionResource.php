@@ -22,6 +22,7 @@ class QuestionResource extends JsonResource
             'body' => $this->body,
             'votes_count' => $this->votes_count,
             'answers_count' => $this->answers_count,
+            'has_accepted_answer' => !! $this->best_answer_id, // ini fungsinya utk mengecek apakah question ini sudah memiliki answer yg terbaik
             'views_count' => $this->views_count,
             'summary' => str($this->body)->limit(250),
             'user' => UserResource::make($this->user), // kayanya krn ini akan merujuk ke model user karena dalam model user ada method avatarUrl

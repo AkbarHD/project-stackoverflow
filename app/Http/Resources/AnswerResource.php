@@ -20,6 +20,7 @@ class AnswerResource extends JsonResource
             'body' => $this->body,
             'user' => UserResource::make($this->user),
             'votes_count' => $this->votes_count,
+            'is_best' => $this->isBest(), // fungsi isBest() untuk mengecek apakah answer ini adalah answer terbaik dari question ini
             'question_id' => $this->question_id, // fungsi question_ id untuk pertanyaan yang dijawab
             'created_at' => DateRTimeResource::make($this->created_at),
             'can_be' => [
